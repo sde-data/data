@@ -1,9 +1,11 @@
 name: Deploy to S3 (DEV)
 
+# Trigger workflow on push to dev branch or manual run
 on:
   push:
     branches:
       - dev
+  workflow_dispatch:
 
 jobs:
   deploy-s3-dev:
@@ -11,9 +13,11 @@ jobs:
     environment: dev
 
     steps:
+      # Step 1: Checkout repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Step 2: Configure AWS credentials from DEV environment secrets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -21,12 +25,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.AWS_REGION }}
 
+      # Step 3: Upload files to S3 bucket (exclude git and workflow files)
       - name: Upload files to S3
         run: |
           aws s3 sync ./ s3://my-dev-app-bucket/ \
             --delete \
             --exclude ".git/*" \
-            --exclude ".github/*"
+            --exclude ".github/*" \
+            --exclude "node_modules/*"
 
+      # Step 4: Verify files in S3
       - name: Verify upload
         run: aws s3 ls s3://my-dev-app-bucket/
+
+      # Step 5 (Optional): Print environment info
+      - name: Print environment info
+        run: |
+          echo "App Name: ${{ vars.APP_NAME }}"
+          echo "Environment: ${{ vars.APP_ENV }}"
+          echo "Deploy Env: ${{ vars.DEPLOY_ENV }}"
+          echo "Log Level: ${{ vars.LOG_LEVEL }}"
