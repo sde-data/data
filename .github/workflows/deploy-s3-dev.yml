@@ -23,7 +23,7 @@ jobs:
         with:
           aws-access-key-id: AKIA33MELZBPEWG5AR4B
           aws-secret-access-key: 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
-          aws-region: eu-west-1
+          aws-region: eu-north-1
 
       # Step 3: Upload files to S3 bucket
       - name: Upload files to S3
