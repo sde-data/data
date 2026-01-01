@@ -19,8 +19,5 @@ jobs:
       - name: Verify AWS identity
         run: aws sts get-caller-identity
 
-      - name: List S3 buckets
-        run: aws s3 ls
-
-      - name: Check DEV bucket
+      - name: Check DEV bucket access
         run: aws s3 ls s3://aws-dev-sde/
