@@ -1,9 +1,13 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
 if __name__ == '__main__':
-    try:
-        n = int(input().strip())
-    except KeyboardInterrupt:
-        print("\nExecution interrupted by user")
-        sys.exit(0)
+    n = int(input().strip())
 
     if n % 2 != 0:
         print("Weird")
@@ -12,4 +16,6 @@ if __name__ == '__main__':
     elif 6 <= n <= 20:
         print("Not Weird")
     else:
-        print("Weird")
+        print("Not Weird")
+
+
